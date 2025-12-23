@@ -1,7 +1,32 @@
-// tests/checkout.spec.ts
-import { test, expect } from '../fixtures/fixtures.ts';
+import { expect } from '@playwright/test';
+import { authTest as test } from '../fixtures/fixtures';
 
-test('select an item and checkout', async ({ loggedInPage }) => {
+test('Login and logout successufully as standard user', async ({ page }) => {
+  await page.goto('https://www.saucedemo.com/');
+  await page.locator('[data-test="username"]').fill('standard_user');
+  await page.locator('[data-test="password"]').fill('secret_sauce');
+  await page.locator('[data-test="login-button"]').click();
+  await expect(page.getByRole('button', { name: 'Open Menu' })).toBeVisible();
+  await page.getByRole('button', { name: 'Open Menu' }).click();
+  await page.locator('[data-test="logout-sidebar-link"]').click();
+  await page.locator('[data-test="username"]').click();
+  await page.locator('[data-test="password"]').click();
+  await expect(page.locator('[data-test="login-button"]')).toBeVisible();
+});
+
+test('Login unsuccessufully as standard user', async ({ page }) => {
+  await page.goto('https://www.saucedemo.com/');
+  await page.locator('[data-test="username"]').fill('abc');
+  await page.locator('[data-test="password"]').fill('abc');
+  await page.locator('[data-test="login-button"]').click();
+  await expect(page.locator('path').first()).toBeVisible();
+  await expect(page.locator('path').nth(1)).toBeVisible();
+  await expect(page.locator('[data-test="error"]')).toHaveText(
+    'Epic sadface: Username and password do not match any user in this service'
+  );
+});
+
+test('Select an item and checkout as standard user', async ({ loggedInPage }) => {
   const page = loggedInPage;
 
   // Verify page loaded

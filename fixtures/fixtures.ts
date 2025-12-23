@@ -1,14 +1,21 @@
+// Import Playwright's base test
 import { test as base, Page } from '@playwright/test';
-import { LoginPage } from '../pages/loginPage.ts';
-type AuthFixtures = {
-  loggedInPage: Page;
-};
+// Import Page Object
+import { LoginPage } from '../pages/loginPage';
 
-export const test = base.extend<AuthFixtures>({
+// Create custom test with the name authTest
+export const authTest = base.extend<{
+  loggedInPage: Page;
+}>({
+
+  // Define fixture logic
   loggedInPage: async ({ browser }, use) => {
+
+    // Create new browser session
     const context = await browser.newContext();
     const page = await context.newPage();
 
+    // Logging in using Page Object
     const loginPage = new LoginPage(page);
 
     await loginPage.goto();
@@ -18,10 +25,10 @@ export const test = base.extend<AuthFixtures>({
     );
     await loginPage.assertLoginSuccess();
 
-    await use(page); // pass the logged-in page to the test
+    // Passing in the logged-in stage to test    
+    await use(page);
 
+    // Test clean up
     await context.close();
-  }
+  },
 });
-
-export { expect } from '@playwright/test';
