@@ -3,11 +3,21 @@ import { test as base, Page } from '@playwright/test';
 // Import Page Object
 import { LoginPage } from '../pages/loginPage';
 
+// Read env vars once
+const USERNAME = process.env.SAUCE_USERNAME;
+const PASSWORD = process.env.SAUCE_PASSWORD;
+
+if (!USERNAME || !PASSWORD) {
+  throw new Error(
+    'Missing SAUCE_USERNAME or SAUCE_PASSWORD. Check your .env file.'
+  );
+}
+
+
 // Create custom test with the name authTest
 export const authTest = base.extend<{
   loggedInPage: Page;
 }>({
-
   // Define fixture logic
   loggedInPage: async ({ browser }, use) => {
 
@@ -19,10 +29,7 @@ export const authTest = base.extend<{
     const loginPage = new LoginPage(page);
 
     await loginPage.goto();
-    await loginPage.login(
-      process.env.SAUCE_USERNAME || 'standard_user',
-      process.env.SAUCE_PASSWORD || 'secret_sauce'
-    );
+    await loginPage.login(USERNAME, PASSWORD);
     await loginPage.assertLoginSuccess();
 
     // Passing in the logged-in stage to test    
