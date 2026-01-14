@@ -12,6 +12,7 @@ export class LoginPage {
   constructor(page: Page) {
     // Setting up the Login page
     this.page = page;
+    
     // Creating locators on the Login page
     this.usernameInput = page.locator('[data-test="username"]');
     this.passwordInput = page.locator('[data-test="password"]');
