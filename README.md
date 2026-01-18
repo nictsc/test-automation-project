@@ -42,10 +42,16 @@ Each test is
 - Designed to fail clearly
 
 ## Framework Architecture
-├── tests/              # Business-focused test scenarios
-├── pages/              # Page Object Models (single responsibility)
-├── fixtures/           # Test setup, teardown, and shared context
-├── utils/              # Reusable helpers (waits, assertions, data)
-├── .env                # environmental variables storage
-├── playwright.config.ts
-└── README.md
+```
+tests/                # Business-focused test scenarios
+	tests.spec.ts       # End-to-end flows for login and product sorting
+pages/                # Page Object Models (single responsibility)
+	loginPage.ts        # Login form interactions and assertions
+	productPage.ts      # Product listing interactions and sorting checks
+fixtures/             # Test setup, teardown, and shared context
+	fixtures.ts
+utils/                # Reusable helpers (waits, assertions, data)
+.env                  # Environment variables storage
+playwright.config.ts  # Playwright runner configuration
+README.md             # Project overview and how-tos
+```
