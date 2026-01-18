@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { authTest as test } from '../fixtures/fixtures';
 import { LoginPage } from '../pages/loginPage';
-import { ProductOverviewPage } from '../pages/productPage';
+import { ProductOverviewPage } from '../pages/productOverviewPage';
 import dotenv from 'dotenv';
 
 dotenv.config();
