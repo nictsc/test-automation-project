@@ -43,3 +43,19 @@ test('Sort products page in reverse alphabetical order as standard user', async 
   await productOverviewPage.sortProducts('za');
   await productOverviewPage.assertProductsInReverseAlphabeticalOrder();
 });
+
+test('Sort products page in ascending price order as standard user', async ({ loggedInPage }) => {
+  const productOverviewPage = new ProductOverviewPage(loggedInPage);
+  
+  await productOverviewPage.assertPageLoaded();
+  await productOverviewPage.sortProducts('lohi');
+  await productOverviewPage.assertProductsInAscendingPriceOrder();
+});
+
+test('Sort products page in descending price order as standard user', async ({ loggedInPage }) => {
+  const productOverviewPage = new ProductOverviewPage(loggedInPage);
+  
+  await productOverviewPage.assertPageLoaded();
+  await productOverviewPage.sortProducts('hilo');
+  await productOverviewPage.assertProductsInDescendingPriceOrder();
+});
