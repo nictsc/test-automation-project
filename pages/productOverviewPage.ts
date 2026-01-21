@@ -1,24 +1,20 @@
 // pages/productOverviewPage.ts
 import { Page, Locator, expect } from '@playwright/test';
+import { BasePage } from './basePage';
 
 // Creating the Product Overview Page object
-export class ProductOverviewPage {
-  readonly page: Page;
-  readonly hamburgerMenu: Locator;
-  readonly logoutLink: Locator;
+export class ProductOverviewPage extends BasePage {
   readonly productSortDropdown: Locator;
-  readonly productTitles: Locator;
   readonly productPrices: Locator;
+  readonly addToCartButton: Locator;
 
   constructor(page: Page) {
     // Setting up the Product Overview page
-    this.page = page;
+    super(page);
 
-    // Creating locators on the Product Overview page
-    this.hamburgerMenu = page.locator('#react-burger-menu-btn');
-    this.logoutLink = page.locator('[data-test="logout-sidebar-link"]');
+    // Creating unique locators on the Product Overview page
+    this.addToCartButton = page.locator('[data-test="add-to-cart-sauce-labs-backpack"]');
     this.productSortDropdown = page.locator('[data-test="product-sort-container"]');
-    this.productTitles = page.locator('[data-test$="-title-link"]');
     this.productPrices = page.locator('[data-test="inventory-item-price"]')
   }
 
@@ -98,10 +94,17 @@ export class ProductOverviewPage {
     expect(isAscendingPrice).toBe(true);
   }
 
-  // Logout
-  async logout() {
-    await this.hamburgerMenu.click();
-    await this.logoutLink.click();
+  // Add item to shopping cart on product overview page
+  async addItemToShoppingCart() {
+    await this.addToCartButton.click();
+  }
+
+  // Assert product in product overview page and return name
+  async assertProductInProductOverviewPage(): Promise<string | null> {
+    const productNameLocator = this.itemTitleLink;
+    await expect(productNameLocator).toBeVisible();
+    const productName = await productNameLocator.textContent();
+    return productName?.trim() || null;
   }
 
   

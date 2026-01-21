@@ -2,6 +2,7 @@ import { expect } from '@playwright/test';
 import { authTest as test } from '../fixtures/fixtures';
 import { LoginPage } from '../pages/loginPage';
 import { ProductOverviewPage } from '../pages/productOverviewPage';
+import { ProductDetailsPage } from '../pages/productDetailsPage';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -28,7 +29,7 @@ test('Login unsuccessfully as standard user', async ({ page }) => {
   await loginPage.assertLoginFailure();
 });
 
-test('Sort products page in alphabetical order as standard user', async ({ loggedInPage }) => {
+test('Sort products overview page in alphabetical order as standard user', async ({ loggedInPage }) => {
   const productOverviewPage = new ProductOverviewPage(loggedInPage);
   
   await productOverviewPage.assertPageLoaded();
@@ -36,7 +37,7 @@ test('Sort products page in alphabetical order as standard user', async ({ logge
   await productOverviewPage.assertProductsInAlphabeticalOrder();
 });
 
-test('Sort products page in reverse alphabetical order as standard user', async ({ loggedInPage }) => {
+test('Sort products overview page in reverse alphabetical order as standard user', async ({ loggedInPage }) => {
   const productOverviewPage = new ProductOverviewPage(loggedInPage);
   
   await productOverviewPage.assertPageLoaded();
@@ -44,7 +45,7 @@ test('Sort products page in reverse alphabetical order as standard user', async 
   await productOverviewPage.assertProductsInReverseAlphabeticalOrder();
 });
 
-test('Sort products page in ascending price order as standard user', async ({ loggedInPage }) => {
+test('Sort products overview page in ascending price order as standard user', async ({ loggedInPage }) => {
   const productOverviewPage = new ProductOverviewPage(loggedInPage);
   
   await productOverviewPage.assertPageLoaded();
@@ -52,10 +53,30 @@ test('Sort products page in ascending price order as standard user', async ({ lo
   await productOverviewPage.assertProductsInAscendingPriceOrder();
 });
 
-test('Sort products page in descending price order as standard user', async ({ loggedInPage }) => {
+test('Sort products overview page in descending price order as standard user', async ({ loggedInPage }) => {
   const productOverviewPage = new ProductOverviewPage(loggedInPage);
   
   await productOverviewPage.assertPageLoaded();
   await productOverviewPage.sortProducts('hilo');
   await productOverviewPage.assertProductsInDescendingPriceOrder();
 });
+
+test('Add item on product overview page and remove item on product details page as standard user', async ({ loggedInPage }) => {
+  const productOverviewPage = new ProductOverviewPage(loggedInPage);
+  const productDetailsPage = new ProductDetailsPage(loggedInPage);
+  
+  await productOverviewPage.assertPageLoaded();
+  await productOverviewPage.addItemToShoppingCart();
+  await productOverviewPage.assertItemInShoppingCart();
+  const overviewProductName = await productOverviewPage.assertProductInProductOverviewPage();
+  
+  await productOverviewPage.clickShoppingCart();
+  await loggedInPage.waitForLoadState('domcontentloaded');
+  
+  const detailsProductName = await productDetailsPage.assertProductInProductDetailsPage();
+  expect(overviewProductName).toBe(detailsProductName);
+  await productDetailsPage.assertItemInShoppingCart();
+  
+  await productDetailsPage.clickRemoveButton();
+  await productDetailsPage.assertShoppingCartEmpty();
+})
