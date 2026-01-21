@@ -43,15 +43,16 @@ Each test is
 
 ## Framework Architecture
 ```
-tests/                # Business-focused test scenarios
-	tests.spec.ts       # End-to-end flows for login and product sorting
-pages/                # Page Object Models (single responsibility)
-	loginPage.ts        # Login form interactions and assertions
-	productPage.ts      # Product listing interactions and sorting checks
-fixtures/             # Test setup, teardown, and shared context
+tests/                	# Business-focused test scenarios
+	tests.spec.ts       		# End-to-end flows for login and product sorting
+pages/               	# Page Object Models (single responsibility)
+	basePage.ts         		# Common interactions and assertions on all pages
+	loginPage.ts        		# Login form interactions and assertions
+	productOverviewPage.ts      # Product listing interactions and sorting checks on Overview page
+	productDetailsPage.ts		# Product listing interactions and sorting checks on Details page
+fixtures/             	# Test setup, teardown, and shared context
 	fixtures.ts
-utils/                # Reusable helpers (waits, assertions, data)
-.env                  # Environment variables storage
-playwright.config.ts  # Playwright runner configuration
-README.md             # Project overview and how-tos
+.env                  	# Environment variables storage
+playwright.config.ts 	 # Playwright runner configuration
+README.md             	# Project overview and how-tos
 ```
