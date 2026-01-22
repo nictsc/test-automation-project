@@ -47,9 +47,10 @@ tests/                	# Business-focused test scenarios
 	tests.spec.ts       		# End-to-end flows for login and product sorting
 pages/               	# Page Object Models (single responsibility)
 	basePage.ts         		# Common interactions and assertions on all pages
-	loginPage.ts        		# Login form interactions and assertions
+	loginPage.ts        		# Login form interactions and assertions on login flow
 	productOverviewPage.ts      # Product listing interactions and sorting checks on Overview page
 	productDetailsPage.ts		# Product listing interactions and sorting checks on Details page
+	infoPage.ts					# User Information interactions and sorting checks on checkout flow
 fixtures/             	# Test setup, teardown, and shared context
 	fixtures.ts
 .env                  	# Environment variables storage
