@@ -9,10 +9,10 @@ export class ProductDetailsPage extends BasePage {
   readonly backtToProducts:Locator;
 
    constructor(page: Page) {
-    // Setting up the Product Details page
+    // Set up the Product Details page
     super(page);
 
-    // Creating unique locators on the Product Details page
+    // Create unique locators on the Product Details page
     this.inventoryDetailsName = page.locator('[data-test="inventory-item-name"]');
     this.inventoryDetailsPrice = page.locator('[data-test="inventory-item-price"]');
     this.inventoryDetailsDescription = page.locator('[data-test="inventory-item-desc"]');

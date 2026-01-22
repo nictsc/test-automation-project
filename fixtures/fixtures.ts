@@ -14,7 +14,7 @@ if (!USERNAME || !PASSWORD) {
 }
 
 
-// Create custom test with the name authTest
+// Add authenticated state for testing
 export const authTest = base.extend<{
   loggedInPage: Page;
 }>({
