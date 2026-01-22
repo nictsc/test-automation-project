@@ -4,15 +4,16 @@ import { BasePage } from './basePage';
 
 // Creating the Product Overview Page object
 export class ProductOverviewPage extends BasePage {
+  // Declare what exists on the Product Overview page
   readonly productSortDropdown: Locator;
   readonly productPrices: Locator;
   readonly addToCartButton: Locator;
 
   constructor(page: Page) {
-    // Setting up the Product Overview page
+    // Set up the Product Overview page
     super(page);
 
-    // Creating unique locators on the Product Overview page
+    // Create unique locators on the Product Overview page
     this.addToCartButton = page.locator('[data-test="add-to-cart-sauce-labs-backpack"]');
     this.productSortDropdown = page.locator('[data-test="product-sort-container"]');
     this.productPrices = page.locator('[data-test="inventory-item-price"]')
@@ -23,12 +24,12 @@ export class ProductOverviewPage extends BasePage {
     await expect(this.hamburgerMenu).toBeVisible();
   }
 
-  // Selecting drop down menu options
+  // Select drop down menu options
   async sortProducts(option: 'az' | 'za' | 'lohi' | 'hilo') {
     await this.productSortDropdown.selectOption(option);
   }
 
-  // Inserting all the product titles into a sorting array
+  // Insert all the product titles into a sorting array
   async getProductTitles(): Promise<string[]> {
     const locators = await this.productTitles.all();
     const titles: string[] = [];
@@ -41,7 +42,7 @@ export class ProductOverviewPage extends BasePage {
     return titles;
   }
 
-  // Inserting all the product prices into a sorting array
+  // Insert all the product prices into a sorting array
   async getProductPrices(): Promise<string[]> {
     const locators = await this.productPrices.all();
     const prices: string[] = [];

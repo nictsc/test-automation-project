@@ -2,6 +2,7 @@ import { Page, Locator, expect } from '@playwright/test';
 import { BasePage } from './basePage';
 
 export class ProductDetailsPage extends BasePage {
+  // Declare what exists on the Product Details page
   readonly inventoryDetailsName: Locator;
   readonly inventoryDetailsPrice: Locator;
   readonly inventoryDetailsDescription: Locator;
@@ -18,7 +19,6 @@ export class ProductDetailsPage extends BasePage {
     this.inventoryDetailsDescription = page.locator('[data-test="inventory-item-desc"]');
     this.removeButton = page.locator('[data-test^="remove-"]');
     this.backtToProducts = page.locator('[data-test="back-to-products"]')
-    
   }
 
   // Click remove button

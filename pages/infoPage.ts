@@ -2,6 +2,7 @@ import { Page, Locator } from '@playwright/test';
 import { BasePage } from './basePage';
 
 export class InfoPage extends BasePage {
+  // Declare what exists on the Info page
   readonly continueButton: Locator;
   readonly cancelButton: Locator;
   readonly firstName: Locator;

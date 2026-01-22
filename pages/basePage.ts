@@ -1,6 +1,7 @@
 import { Page, Locator, expect } from '@playwright/test';
 
 export class BasePage {
+  // Declare what exists on all pages that inherits the base page
   readonly page: Page;
   readonly shoppingCartIcon: Locator;
   readonly hamburgerMenu: Locator;

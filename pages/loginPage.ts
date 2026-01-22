@@ -2,7 +2,7 @@ import { Page, Locator, expect } from '@playwright/test';
 
 // Creating the Login Page object
 export class LoginPage {
-  // Declaring what exists on the Login page
+  // Declare what exists on the Login page
   readonly page: Page;
   readonly usernameInput: Locator;
   readonly passwordInput: Locator;
@@ -13,7 +13,7 @@ export class LoginPage {
     // Set up the Login page
     this.page = page;
     
-    // Creating locators on the Login page
+    // Create locators on the Login page
     this.usernameInput = page.locator('[data-test="username"]');
     this.passwordInput = page.locator('[data-test="password"]');
     this.loginButton = page.locator('[data-test="login-button"]');
@@ -25,7 +25,7 @@ export class LoginPage {
     await this.page.goto('https://www.saucedemo.com/');
   }
 
-  // Executte login actions
+  // Execute login actions
   async login(username: string, password: string) {
     await this.usernameInput.fill(username);
     await this.passwordInput.fill(password);
