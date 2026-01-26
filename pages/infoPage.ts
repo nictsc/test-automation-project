@@ -67,8 +67,8 @@ export class InfoPage extends BasePage {
   // Fill with blank post code, valid first name and last name
   async fillWithoutPostCode({ firstName, lastName }: { firstName: string; lastName: string }): Promise<void> {
     await this.inputValidFirstName(firstName);
-    await this.inputValidLastName('');
-    await this.inputValidPostCode(lastName);
+    await this.inputValidLastName(lastName);
+    await this.inputValidPostCode('');
   }
 
   // Click on Continue Button

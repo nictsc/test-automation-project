@@ -57,3 +57,38 @@ fixtures/             	# Test setup, teardown, and shared context
 playwright.config.ts 	 # Playwright runner configuration
 README.md             	# Project overview and how-tos
 ```
+
+## Environment Setup
+- Create a `.env` file in the project root with:
+
+```
+USERNAME=your_username
+PASSWORD=your_password
+```
+
+- Alternatively, provide env vars inline when running tests:
+
+```
+USERNAME=your_username PASSWORD=your_password npx playwright test
+```
+
+The test fixtures read `USERNAME` and `PASSWORD` at startup and will error if they are missing.
+
+## Running Tests
+- Install dependencies:
+
+```
+npm install
+```
+
+- Run all tests (reads `.env` automatically via dotenv):
+
+```
+npm test
+```
+
+- Generate and open the HTML report:
+
+```
+npm run test:report
+```

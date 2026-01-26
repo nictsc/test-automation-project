@@ -12,7 +12,7 @@ test('Login and logout successfully as standard user', async ({ page }) => {
   const productOverviewPage = new ProductOverviewPage(page);
   
   await loginPage.goto();
-  await loginPage.login(process.env.SAUCE_USERNAME!, process.env.SAUCE_PASSWORD!);
+  await loginPage.login(process.env.STANDARDUSERNAME!, process.env.PASSWORD!);
   await loginPage.assertLoginSuccess();
   
   await productOverviewPage.logout();

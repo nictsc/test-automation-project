@@ -16,7 +16,10 @@
     "@playwright/test": "^1.57.0",
     "@types/node": "^25.0.3"
   },
-  "scripts": {},
+  "scripts": {
+    "test": "playwright test",
+    "test:report": "playwright test --reporter=html && playwright show-report"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nictsc/test-automation-project.git"
