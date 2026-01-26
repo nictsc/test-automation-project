@@ -36,7 +36,14 @@ export class InfoPage extends BasePage {
     await this.postalCode.fill(postCode.trim());
   }
 
-  // Fill all info fields in one call
+  // Clear all fields
+  async clearCheckoutInfo(): Promise<void> {
+    await this.firstName.fill('');
+    await this.lastName.fill('');
+    await this.postalCode.fill('');
+  }
+
+  // Fill all fields
   async fillCheckoutInfo({ firstName, lastName, postCode }: { firstName: string; lastName: string; postCode: string }): Promise<void> {
     await this.inputValidFirstName(firstName);
     await this.inputValidLastName(lastName);
