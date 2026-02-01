@@ -100,8 +100,8 @@ export class ProductOverviewPage extends BasePage {
     await this.addToCartButton.click();
   }
 
-  // Assert product in product overview page and return name
-  async assertProductInProductOverviewPage(): Promise<string | null> {
+  // Get product name from Product Overview page
+  async getProductName(): Promise<string | null> {
     const productNameLocator = this.itemTitleLink;
     await expect(productNameLocator).toBeVisible();
     const productName = await productNameLocator.textContent();

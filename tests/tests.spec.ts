@@ -3,7 +3,10 @@ import { authTest as test } from '../fixtures/fixtures';
 import { LoginPage } from '../pages/loginPage';
 import { ProductOverviewPage } from '../pages/productOverviewPage';
 import { ProductDetailsPage } from '../pages/productDetailsPage';
+import { InfoPage } from '../pages/infoPage';
+import { ShoppingCartPage } from '../pages/shoppingCartPage';
 import dotenv from 'dotenv';
+
 
 dotenv.config();
 
@@ -61,22 +64,25 @@ test('Sort products overview page in descending price order as standard user', a
   await productOverviewPage.assertProductsInDescendingPriceOrder();
 });
 
-test('Add item on product overview page and remove item on product details page as standard user', async ({ loggedInPage }) => {
+test('Add item on product overview page and remove item on Shopping Cart page as standard user', async ({ loggedInPage }) => {
   const productOverviewPage = new ProductOverviewPage(loggedInPage);
-  const productDetailsPage = new ProductDetailsPage(loggedInPage);
+  const shoppingCartPage = new ShoppingCartPage(loggedInPage);
   
   await productOverviewPage.assertPageLoaded();
   await productOverviewPage.addItemToShoppingCart();
   await productOverviewPage.assertItemInShoppingCart();
-  const overviewProductName = await productOverviewPage.assertProductInProductOverviewPage();
+  const overviewProductName = await productOverviewPage.getProductName();
   
   await productOverviewPage.clickShoppingCart();
   await loggedInPage.waitForLoadState('domcontentloaded');
+  await shoppingCartPage.shoppingCartItemName.waitFor({ state: 'visible' });
   
-  const detailsProductName = await productDetailsPage.assertProductInProductDetailsPage();
-  expect(overviewProductName).toBe(detailsProductName);
-  await productDetailsPage.assertItemInShoppingCart();
+  // Checking that the item name on Product Overview page and Shopping Cart page matches
+  const shoppingCartProductName = await shoppingCartPage.getProductName();
+  expect(overviewProductName).toBe(shoppingCartProductName);
+  await shoppingCartPage.assertItemInShoppingCart();
   
-  await productDetailsPage.clickRemoveButton();
-  await productDetailsPage.assertShoppingCartEmpty();
-})
+  await shoppingCartPage.clickRemoveButton();
+  await loggedInPage.waitForLoadState('domcontentloaded');
+  await shoppingCartPage.assertShoppingCartEmpty();
+});;

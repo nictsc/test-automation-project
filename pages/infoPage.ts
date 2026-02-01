@@ -13,7 +13,7 @@ export class InfoPage extends BasePage {
     // Set up the Product Details page
     super(page);
 
-    // Create unique locators on the Product Details page
+    // Create unique locators on the Info page
     this.continueButton = page.locator('[data-test="continue"]');
     this.cancelButton = page.locator('[data-test="cancel"]');
     this.firstName = page.locator('[data-test="firstName"]');
