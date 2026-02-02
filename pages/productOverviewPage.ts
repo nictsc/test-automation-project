@@ -63,6 +63,7 @@ export class ProductOverviewPage extends BasePage {
     const isAlphabetical = titles.every((item, i) => 
       i === 0 || item >= titles[i - 1]
     );
+    console.log(titles);
     expect(isAlphabetical).toBe(true);
   }
 
@@ -72,6 +73,7 @@ export class ProductOverviewPage extends BasePage {
     const isReverseAlphabetical = titles.every((item, i) => 
       i === 0 || item <= titles[i - 1]
     );
+    console.log(titles);
     expect(isReverseAlphabetical).toBe(true);
   }
 
@@ -83,6 +85,7 @@ export class ProductOverviewPage extends BasePage {
     const isAscendingPrice = numericPrices.every((price, i) =>
       i === 0 || price >= numericPrices[i - 1]
     );
+    console.log(numericPrices);
     expect(isAscendingPrice).toBe(true);
   }
 
@@ -94,6 +97,7 @@ export class ProductOverviewPage extends BasePage {
     const isAscendingPrice = numericPrices.every((price, i) =>
       i === 0 || price <= numericPrices[i - 1]
     );
+    console.log(numericPrices);
     expect(isAscendingPrice).toBe(true);
   }
 
