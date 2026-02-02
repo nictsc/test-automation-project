@@ -6,7 +6,6 @@ export class ProductDetailsPage extends BasePage {
   readonly inventoryDetailsName: Locator;
   readonly inventoryDetailsPrice: Locator;
   readonly inventoryDetailsDescription: Locator;
-  readonly removeButton: Locator;
   readonly backtToProducts:Locator;
 
    constructor(page: Page) {
@@ -17,7 +16,6 @@ export class ProductDetailsPage extends BasePage {
     this.inventoryDetailsName = page.locator('[data-test="inventory-item-name"]');
     this.inventoryDetailsPrice = page.locator('[data-test="inventory-item-price"]');
     this.inventoryDetailsDescription = page.locator('[data-test="inventory-item-desc"]');
-    this.removeButton = page.locator('[data-test^="remove-"]');
     this.backtToProducts = page.locator('[data-test="back-to-products"]')
   }
 
@@ -43,9 +41,17 @@ export class ProductDetailsPage extends BasePage {
     await this.inventoryDetailsPrice.click();
   }
 
-  // Assert product in product details page and return name
+  // Assert product in Product Details page and return name
   async assertProductInProductDetailsPage(): Promise<string | null> {
     const productNameLocator = this.itemTitleLink;
+    await expect(productNameLocator).toBeVisible();
+    const productName = await productNameLocator.textContent();
+    return productName?.trim() || null;
+  }
+
+  // Get product name from Product Details page
+  async getProductName(): Promise<string | null> {
+    const productNameLocator = this.inventoryDetailsName.first();
     await expect(productNameLocator).toBeVisible();
     const productName = await productNameLocator.textContent();
     return productName?.trim() || null;

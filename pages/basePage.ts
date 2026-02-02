@@ -7,15 +7,17 @@ export class BasePage {
   readonly hamburgerMenu: Locator;
   readonly logoutLink: Locator;
   readonly productTitles: Locator;
-  readonly itemTitleLink: Locator;
+  readonly sauceLabsBackpack: Locator;
+  readonly removeButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.shoppingCartIcon = page.locator('[data-test="shopping-cart-link"]');
     this.hamburgerMenu = page.locator('#react-burger-menu-btn');
     this.logoutLink = page.locator('[data-test="logout-sidebar-link"]');
-    this.productTitles = page.locator('[data-test$="-title-link"]');
-    this.itemTitleLink = page.locator('[data-test="item-4-title-link"]');
+    this.productTitles = page.locator('[data-test$="-title-link"]'); // $= operator "ends with"
+    this.sauceLabsBackpack = page.locator('[data-test="item-4-title-link"]'); // Sauce Labs Backpack
+    this.removeButton = page.locator('[data-test^="remove"]'); // ^ is a prefix match operator "starts with"
   }
 
   // Assert shopping cart is visible

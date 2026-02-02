@@ -64,13 +64,39 @@ test('Sort products overview page in descending price order as standard user', a
   await productOverviewPage.assertProductsInDescendingPriceOrder();
 });
 
-test('Add item on product overview page and remove item on Shopping Cart page as standard user', async ({ loggedInPage }) => {
+test('Add and remove item on Product Overview page as standard user', async ({ loggedInPage})=> {
+  const productOverviewPage = new ProductOverviewPage(loggedInPage);
+
+  await productOverviewPage.addItem();
+  await productOverviewPage.removeItem();
+});
+
+
+test('Add item on Product Overview page and remove item on Product Details page as standard user', async ({ loggedInPage }) => {
+  const productOverviewPage = new ProductOverviewPage(loggedInPage);
+  const productDetailsPage = new ProductDetailsPage(loggedInPage);
+  
+  await productOverviewPage.addItem();
+  const overviewProductName = await productOverviewPage.getProductName();
+  console.log(overviewProductName);
+  await productOverviewPage.clickProductName();
+  await loggedInPage.waitForLoadState('domcontentloaded');
+  
+  // Checking that the item name on Product Overview page and Product Details page matches
+  const detailsProductName = await productDetailsPage.getProductName();
+  expect(overviewProductName).toBe(detailsProductName);
+  await productDetailsPage.assertItemInShoppingCart();
+  
+  await productDetailsPage.clickRemoveButton();
+  await loggedInPage.waitForLoadState('domcontentloaded');
+  await productDetailsPage.assertShoppingCartEmpty();
+});
+
+test('Add item on Product Overview page and remove item on Shopping Cart page as standard user', async ({ loggedInPage }) => {
   const productOverviewPage = new ProductOverviewPage(loggedInPage);
   const shoppingCartPage = new ShoppingCartPage(loggedInPage);
   
-  await productOverviewPage.assertPageLoaded();
-  await productOverviewPage.addItemToShoppingCart();
-  await productOverviewPage.assertItemInShoppingCart();
+  await productOverviewPage.addItem();
   const overviewProductName = await productOverviewPage.getProductName();
   
   await productOverviewPage.clickShoppingCart();
@@ -85,4 +111,6 @@ test('Add item on product overview page and remove item on Shopping Cart page as
   await shoppingCartPage.clickRemoveButton();
   await loggedInPage.waitForLoadState('domcontentloaded');
   await shoppingCartPage.assertShoppingCartEmpty();
-});;
+});
+
+

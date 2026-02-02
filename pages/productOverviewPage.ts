@@ -8,7 +8,8 @@ export class ProductOverviewPage extends BasePage {
   readonly productSortDropdown: Locator;
   readonly productPrices: Locator;
   readonly addToCartButton: Locator;
-
+  readonly productName: Locator;
+  
   constructor(page: Page) {
     // Set up the Product Overview page
     super(page);
@@ -16,7 +17,8 @@ export class ProductOverviewPage extends BasePage {
     // Create unique locators on the Product Overview page
     this.addToCartButton = page.locator('[data-test="add-to-cart-sauce-labs-backpack"]');
     this.productSortDropdown = page.locator('[data-test="product-sort-container"]');
-    this.productPrices = page.locator('[data-test="inventory-item-price"]')
+    this.productPrices = page.locator('[data-test="inventory-item-price"]');
+    this.productName = page.locator('[data-test="inventory-item-name"]');
   }
 
   // Verify hamburger menu is visible
@@ -95,18 +97,40 @@ export class ProductOverviewPage extends BasePage {
     expect(isAscendingPrice).toBe(true);
   }
 
-  // Add item to shopping cart on product overview page
+  // Add item to shopping cart on Product Overview page
   async addItemToShoppingCart() {
     await this.addToCartButton.click();
   }
 
   // Get product name from Product Overview page
   async getProductName(): Promise<string | null> {
-    const productNameLocator = this.itemTitleLink;
+    const productNameLocator = this.sauceLabsBackpack.first();
     await expect(productNameLocator).toBeVisible();
     const productName = await productNameLocator.textContent();
     return productName?.trim() || null;
   }
 
-  
+  // Click on 1st Product Name
+  async clickProductName() {
+    await this.productName.first().click();
+  }
+
+  // Click on Remove Button
+  async clickRemoveButton() {
+    await this.removeButton.click();
+  }
+
+  // Add item and assert its presence in shopping cart
+  async addItem() {
+    await this.assertPageLoaded();
+    await this.addItemToShoppingCart();
+    await this.assertItemInShoppingCart();
+  }
+
+  // Remove item and assert its absence in shopping cart
+  async removeItem() {
+    await this.clickRemoveButton();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.assertShoppingCartEmpty();
+  }  
 }

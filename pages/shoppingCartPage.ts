@@ -37,12 +37,12 @@ export class ShoppingCartPage extends BasePage {
 
   // Assert item title is visible in cart
   async assertItemTitleVisible() {
-    await expect(this.itemTitleLink).toBeVisible();
+    await expect(this.sauceLabsBackpack).toBeVisible();
   }
 
   // Get product name from Shopping Cart page
   async getProductName(): Promise<string | null> {
-    const productNameLocator = this.itemTitleLink;
+    const productNameLocator = this.sauceLabsBackpack.first();
     await expect(productNameLocator).toBeVisible();
     const productName = await productNameLocator.textContent();
     return productName?.trim() || null;
