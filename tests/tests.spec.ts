@@ -5,6 +5,7 @@ import { ProductOverviewPage } from '../pages/productOverviewPage';
 import { ProductDetailsPage } from '../pages/productDetailsPage';
 import { InfoPage } from '../pages/infoPage';
 import { ShoppingCartPage } from '../pages/shoppingCartPage';
+import { CheckoutPage } from '../pages/checkoutPage';
 import dotenv from 'dotenv';
 
 
@@ -77,13 +78,14 @@ test('Add item on Product Overview page and remove item on Product Details page 
   const productDetailsPage = new ProductDetailsPage(loggedInPage);
   
   await productOverviewPage.addItem();
-  const overviewProductName = await productOverviewPage.getProductName();
-  console.log(overviewProductName);
+  const overviewProductName = await productOverviewPage.assertProductName();
+  console.log(`The product name in the Product Overview page is ${overviewProductName}.`);
   await productOverviewPage.clickProductName();
   await loggedInPage.waitForLoadState('domcontentloaded');
   
   // Checking that the item name on Product Overview page and Product Details page matches
-  const detailsProductName = await productDetailsPage.getProductName();
+  const detailsProductName = await productDetailsPage.assertProductNameInProductDetailsPage();
+  console.log(`The product name in the Product Details page is ${detailsProductName}.`)
   expect(overviewProductName).toBe(detailsProductName);
   await productDetailsPage.assertItemInShoppingCart();
   
@@ -97,14 +99,16 @@ test('Add item on Product Overview page and remove item on Shopping Cart page as
   const shoppingCartPage = new ShoppingCartPage(loggedInPage);
   
   await productOverviewPage.addItem();
-  const overviewProductName = await productOverviewPage.getProductName();
-  
+  const overviewProductName = await productOverviewPage.assertProductName();
+  console.log(`The product name in the Product Overview page is ${overviewProductName}.`);
+
   await productOverviewPage.clickShoppingCart();
   await loggedInPage.waitForLoadState('domcontentloaded');
   await shoppingCartPage.shoppingCartItemName.waitFor({ state: 'visible' });
   
   // Checking that the item name on Product Overview page and Shopping Cart page matches
-  const shoppingCartProductName = await shoppingCartPage.getProductName();
+  const shoppingCartProductName = await shoppingCartPage.assertProductName();
+  console.log(`The product name in the Shopping Cart page is ${shoppingCartProductName}.`)
   expect(overviewProductName).toBe(shoppingCartProductName);
   await shoppingCartPage.assertItemInShoppingCart();
   
@@ -113,4 +117,17 @@ test('Add item on Product Overview page and remove item on Shopping Cart page as
   await shoppingCartPage.assertShoppingCartEmpty();
 });
 
+test('Add correct information on Info page as standard user', async ({ loggedInPage }) => {
+  const productOverviewPage = new ProductOverviewPage(loggedInPage);
+  const shoppingCartPage = new ShoppingCartPage(loggedInPage);
+  const infoPage = new InfoPage(loggedInPage);
+  const checkoutPage = new CheckoutPage(loggedInPage);
+
+  await productOverviewPage.addItem();
+  await productOverviewPage.clickShoppingCart();
+  await shoppingCartPage.clickCheckoutButton();
+  await infoPage.fillCheckoutInfo({ firstName: 'Amy', lastName: 'Johnson', postCode: '2000' });
+  await infoPage.clickContinueButton();
+  await checkoutPage.assertProductName();
+});
 

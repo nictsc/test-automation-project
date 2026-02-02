@@ -15,8 +15,8 @@ export class ShoppingCartPage extends BasePage {
 
     // Create unique locators on the Shopping Cart page
     this.shoppingCartItemName = page.locator('[data-test="inventory-item-name"]');
-    this.checkoutButton = page.locator('[data-test="continue"]');
-    this.continueShoppingButton = page.locator('[data-test="checkout"]');
+    this.checkoutButton = page.locator('[data-test="checkout"]');
+    this.continueShoppingButton = page.locator('[data-test="continue-shopping"]');
     this.removeButton = page.locator('[data-test^="remove-"]'); // ^- is a prefix match operator "starts with"
   }
 
@@ -37,15 +37,7 @@ export class ShoppingCartPage extends BasePage {
 
   // Assert item title is visible in cart
   async assertItemTitleVisible() {
-    await expect(this.sauceLabsBackpack).toBeVisible();
-  }
-
-  // Get product name from Shopping Cart page
-  async getProductName(): Promise<string | null> {
-    const productNameLocator = this.sauceLabsBackpack.first();
-    await expect(productNameLocator).toBeVisible();
-    const productName = await productNameLocator.textContent();
-    return productName?.trim() || null;
+    await expect(this.sauceLabsBackpackTitle).toBeVisible();
   }
   
 }

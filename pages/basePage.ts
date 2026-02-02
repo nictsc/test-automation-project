@@ -7,8 +7,11 @@ export class BasePage {
   readonly hamburgerMenu: Locator;
   readonly logoutLink: Locator;
   readonly productTitles: Locator;
-  readonly sauceLabsBackpack: Locator;
+  readonly sauceLabsBackpackTitle: Locator;
   readonly removeButton: Locator;
+  readonly cancelButton: Locator;
+  readonly continueButton: Locator;
+  
 
   constructor(page: Page) {
     this.page = page;
@@ -16,8 +19,10 @@ export class BasePage {
     this.hamburgerMenu = page.locator('#react-burger-menu-btn');
     this.logoutLink = page.locator('[data-test="logout-sidebar-link"]');
     this.productTitles = page.locator('[data-test$="-title-link"]'); // $= operator "ends with"
-    this.sauceLabsBackpack = page.locator('[data-test="item-4-title-link"]'); // Sauce Labs Backpack
+    this.sauceLabsBackpackTitle = page.locator('[data-test="item-4-title-link"]');
     this.removeButton = page.locator('[data-test^="remove"]'); // ^ is a prefix match operator "starts with"
+    this.cancelButton = page.locator('[data-test="cancel"]');
+    this.continueButton = page.locator('[data-test="continue"]');
   }
 
   // Assert shopping cart is visible
@@ -42,6 +47,14 @@ export class BasePage {
     await this.shoppingCartIcon.click();
   }
 
+  // Get product name from Base page
+  async assertProductName(): Promise<string | null> {
+    const productNameLocator = this.sauceLabsBackpackTitle.first();
+    await expect(productNameLocator).toBeVisible();
+    const productName = await productNameLocator.textContent();
+    return productName?.trim() || null;
+  }
+  
   // Logout
   async logout() {
     await this.hamburgerMenu.click();

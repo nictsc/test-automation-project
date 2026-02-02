@@ -3,19 +3,15 @@ import { BasePage } from './basePage';
 
 export class InfoPage extends BasePage {
   // Declare what exists on the Info page
-  readonly continueButton: Locator;
-  readonly cancelButton: Locator;
   readonly firstName: Locator;
   readonly lastName: Locator;
-  readonly postalCode:Locator;
+  readonly postalCode: Locator;
 
   constructor(page: Page) {
     // Set up the Product Details page
     super(page);
 
     // Create unique locators on the Info page
-    this.continueButton = page.locator('[data-test="continue"]');
-    this.cancelButton = page.locator('[data-test="cancel"]');
     this.firstName = page.locator('[data-test="firstName"]');
     this.lastName = page.locator('[data-test="lastName"]');
     this.postalCode = page.locator('[data-test="postalCode"]');

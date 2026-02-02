@@ -8,7 +8,7 @@ export class ProductDetailsPage extends BasePage {
   readonly inventoryDetailsDescription: Locator;
   readonly backtToProducts:Locator;
 
-   constructor(page: Page) {
+  constructor(page: Page) {
     // Set up the Product Details page
     super(page);
 
@@ -33,7 +33,7 @@ export class ProductDetailsPage extends BasePage {
 
   // Assert item title is visible in cart
   async assertItemTitleVisible() {
-    await expect(this.itemTitleLink).toBeVisible();
+    await expect(this.inventoryDetailsName).toBeVisible();
   }
 
   // Click inventory item price
@@ -42,20 +42,14 @@ export class ProductDetailsPage extends BasePage {
   }
 
   // Assert product in Product Details page and return name
-  async assertProductInProductDetailsPage(): Promise<string | null> {
-    const productNameLocator = this.itemTitleLink;
+  async assertProductNameInProductDetailsPage(): Promise<string | null> {
+    const productNameLocator = this.inventoryDetailsName;
     await expect(productNameLocator).toBeVisible();
     const productName = await productNameLocator.textContent();
     return productName?.trim() || null;
   }
 
-  // Get product name from Product Details page
-  async getProductName(): Promise<string | null> {
-    const productNameLocator = this.inventoryDetailsName.first();
-    await expect(productNameLocator).toBeVisible();
-    const productName = await productNameLocator.textContent();
-    return productName?.trim() || null;
-  }
+
 
   
 }

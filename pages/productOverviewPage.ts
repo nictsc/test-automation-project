@@ -105,15 +105,6 @@ export class ProductOverviewPage extends BasePage {
   async addItemToShoppingCart() {
     await this.addToCartButton.click();
   }
-
-  // Get product name from Product Overview page
-  async getProductName(): Promise<string | null> {
-    const productNameLocator = this.sauceLabsBackpack.first();
-    await expect(productNameLocator).toBeVisible();
-    const productName = await productNameLocator.textContent();
-    return productName?.trim() || null;
-  }
-
   // Click on 1st Product Name
   async clickProductName() {
     await this.productName.first().click();
