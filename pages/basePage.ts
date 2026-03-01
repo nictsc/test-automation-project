@@ -25,6 +25,12 @@ export class BasePage {
     this.continueButton = page.locator('[data-test="continue"]');
   }
 
+  // Assert hamburger menu is visible
+  async assertPageLoaded() {
+    await expect(this.hamburgerMenu).toBeVisible();
+    console.log("menu is visible.")
+  }
+
   // Assert shopping cart is visible
   async assertShoppingCartVisible() {
     await expect(this.shoppingCartIcon).toBeVisible();

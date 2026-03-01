@@ -35,32 +35,24 @@ test('Login unsuccessfully as standard user', async ({ page }) => {
 
 test('Sort products overview page in alphabetical order as standard user', async ({ loggedInPage }) => {
   const productOverviewPage = new ProductOverviewPage(loggedInPage);
-  
-  await productOverviewPage.assertPageLoaded();
   await productOverviewPage.sortProducts('az');
   await productOverviewPage.assertProductsInAlphabeticalOrder();
 });
 
 test('Sort products overview page in reverse alphabetical order as standard user', async ({ loggedInPage }) => {
   const productOverviewPage = new ProductOverviewPage(loggedInPage);
-  
-  await productOverviewPage.assertPageLoaded();
   await productOverviewPage.sortProducts('za');
   await productOverviewPage.assertProductsInReverseAlphabeticalOrder();
 });
 
 test('Sort products overview page in ascending price order as standard user', async ({ loggedInPage }) => {
   const productOverviewPage = new ProductOverviewPage(loggedInPage);
-  
-  await productOverviewPage.assertPageLoaded();
   await productOverviewPage.sortProducts('lohi');
   await productOverviewPage.assertProductsInAscendingPriceOrder();
 });
 
 test('Sort products overview page in descending price order as standard user', async ({ loggedInPage }) => {
   const productOverviewPage = new ProductOverviewPage(loggedInPage);
-  
-  await productOverviewPage.assertPageLoaded();
   await productOverviewPage.sortProducts('hilo');
   await productOverviewPage.assertProductsInDescendingPriceOrder();
 });

@@ -21,11 +21,6 @@ export class ProductOverviewPage extends BasePage {
     this.productName = page.locator('[data-test="inventory-item-name"]');
   }
 
-  // Verify hamburger menu is visible
-  async assertPageLoaded() {
-    await expect(this.hamburgerMenu).toBeVisible();
-  }
-
   // Select drop down menu options
   async sortProducts(option: 'az' | 'za' | 'lohi' | 'hilo') {
     await this.productSortDropdown.selectOption(option);

@@ -2,6 +2,7 @@
 import { test as base, Page } from '@playwright/test';
 // Import Page Object
 import { LoginPage } from '../pages/loginPage';
+import { BasePage } from '../pages/basePage';
 // Load environment variables from .env if present
 import 'dotenv/config';
 
@@ -30,6 +31,10 @@ export const authTest = base.extend<{
     await loginPage.goto();
     await loginPage.login(USERNAME, PASSWORD);
     await loginPage.assertLoginSuccess();
+
+    // Asserting the Base Page is loaded fully with the visible hamburger menu.
+    const basePage = new BasePage(page);
+    await basePage.assertPageLoaded();
 
     // Passing in the logged-in stage to test    
     await use(page);
