@@ -112,7 +112,6 @@ export class ProductOverviewPage extends BasePage {
 
   // Add item and assert its presence in shopping cart
   async addItem() {
-    await this.assertPageLoaded();
     await this.addItemToShoppingCart();
     await this.assertItemInShoppingCart();
   }

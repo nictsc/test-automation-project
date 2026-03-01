@@ -113,13 +113,23 @@ test('Add correct information on Info page as standard user', async ({ loggedInP
   const productOverviewPage = new ProductOverviewPage(loggedInPage);
   const shoppingCartPage = new ShoppingCartPage(loggedInPage);
   const infoPage = new InfoPage(loggedInPage);
-  const checkoutPage = new CheckoutPage(loggedInPage);
 
   await productOverviewPage.addItem();
   await productOverviewPage.clickShoppingCart();
   await shoppingCartPage.clickCheckoutButton();
-  await infoPage.fillCheckoutInfo({ firstName: 'Amy', lastName: 'Johnson', postCode: '2000' });
-  await infoPage.clickContinueButton();
-  await checkoutPage.assertProductName();
+  await infoPage.completedFields()
 });
 
+test('Add incomplete or blank information on Info page as standard user', async ({ loggedInPage }) => {
+  const productOverviewPage = new ProductOverviewPage(loggedInPage);
+  const shoppingCartPage = new ShoppingCartPage(loggedInPage);
+  const infoPage = new InfoPage(loggedInPage);
+
+  await productOverviewPage.addItem();
+  await productOverviewPage.clickShoppingCart();
+  await shoppingCartPage.clickCheckoutButton();
+  await infoPage.blankFirstName();
+  await infoPage.blankLastName();
+  await infoPage.blankPostalCode();
+  await infoPage.blankFields()
+});
