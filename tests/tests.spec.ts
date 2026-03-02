@@ -6,8 +6,9 @@ import { ProductDetailsPage } from '../pages/productDetailsPage';
 import { InfoPage } from '../pages/infoPage';
 import { ShoppingCartPage } from '../pages/shoppingCartPage';
 import { CheckoutPage } from '../pages/checkoutPage';
-import dotenv from 'dotenv';
+import { CheckoutCompletePage } from '../pages/checkoutCompletePage';
 
+import dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -35,24 +36,28 @@ test('Login unsuccessfully as standard user', async ({ page }) => {
 
 test('Sort products overview page in alphabetical order as standard user', async ({ loggedInPage }) => {
   const productOverviewPage = new ProductOverviewPage(loggedInPage);
+
   await productOverviewPage.sortProducts('az');
   await productOverviewPage.assertProductsInAlphabeticalOrder();
 });
 
 test('Sort products overview page in reverse alphabetical order as standard user', async ({ loggedInPage }) => {
   const productOverviewPage = new ProductOverviewPage(loggedInPage);
+
   await productOverviewPage.sortProducts('za');
   await productOverviewPage.assertProductsInReverseAlphabeticalOrder();
 });
 
 test('Sort products overview page in ascending price order as standard user', async ({ loggedInPage }) => {
   const productOverviewPage = new ProductOverviewPage(loggedInPage);
+
   await productOverviewPage.sortProducts('lohi');
   await productOverviewPage.assertProductsInAscendingPriceOrder();
 });
 
 test('Sort products overview page in descending price order as standard user', async ({ loggedInPage }) => {
   const productOverviewPage = new ProductOverviewPage(loggedInPage);
+
   await productOverviewPage.sortProducts('hilo');
   await productOverviewPage.assertProductsInDescendingPriceOrder();
 });
@@ -109,17 +114,6 @@ test('Add item on Product Overview page and remove item on Shopping Cart page as
   await shoppingCartPage.assertShoppingCartEmpty();
 });
 
-test('Add correct information on Info page as standard user', async ({ loggedInPage }) => {
-  const productOverviewPage = new ProductOverviewPage(loggedInPage);
-  const shoppingCartPage = new ShoppingCartPage(loggedInPage);
-  const infoPage = new InfoPage(loggedInPage);
-
-  await productOverviewPage.addItem();
-  await productOverviewPage.clickShoppingCart();
-  await shoppingCartPage.clickCheckoutButton();
-  await infoPage.completedFields()
-});
-
 test('Add incomplete or blank information on Info page as standard user', async ({ loggedInPage }) => {
   const productOverviewPage = new ProductOverviewPage(loggedInPage);
   const shoppingCartPage = new ShoppingCartPage(loggedInPage);
@@ -132,4 +126,21 @@ test('Add incomplete or blank information on Info page as standard user', async 
   await infoPage.blankLastName();
   await infoPage.blankPostalCode();
   await infoPage.blankFields()
+});
+
+test('Buy backpack as standard user', async ({ loggedInPage }) => {
+  const productOverviewPage = new ProductOverviewPage(loggedInPage);
+  const shoppingCartPage = new ShoppingCartPage(loggedInPage);
+  const infoPage = new InfoPage(loggedInPage);
+  const checkoutPage = new CheckoutPage(loggedInPage);
+  const checkoutCompletePage = new CheckoutCompletePage(loggedInPage);
+
+  await productOverviewPage.addItem();
+  const selectedItemsTotal = await productOverviewPage.getSelectedItemsTotal();
+  await productOverviewPage.clickShoppingCart();
+  await shoppingCartPage.clickCheckoutButton();
+  await infoPage.completedFields();
+  await checkoutPage.assertSubtotalMatchesSelectedItemsTotal(selectedItemsTotal);
+  await checkoutPage.clickFinishButton();
+  await checkoutCompletePage.expectSuccessfulOrder();
 });

@@ -1,6 +1,5 @@
 import { Page, Locator, expect } from '@playwright/test';
 import { BasePage } from './basePage';
-import { CheckoutPage } from './checkoutPage';  
 
 export class InfoPage extends BasePage {
   // Declare what exists on the Info page
@@ -85,7 +84,6 @@ export class InfoPage extends BasePage {
   async completedFields() {
     await this.fillCheckoutInfo({ firstName: 'Amy', lastName: 'Johnson', postCode: '2000' });
     await this.clickContinueButton();
-    await this.assertProductName();
   }
 
   async blankFirstName() {

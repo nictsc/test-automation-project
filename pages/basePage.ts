@@ -61,6 +61,11 @@ export class BasePage {
     return productName?.trim() || null;
   }
   
+  protected parsePrice(value: string): number {
+    const numericValue = value.replace(/[^0-9.]/g, '');
+    return Number.parseFloat(numericValue) || 0;
+  }
+  
   // Logout
   async logout() {
     await this.hamburgerMenu.click();

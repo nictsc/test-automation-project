@@ -7,7 +7,7 @@ export class ProductOverviewPage extends BasePage {
   // Declare what exists on the Product Overview page
   readonly productSortDropdown: Locator;
   readonly productPrices: Locator;
-  readonly addToCartButton: Locator;
+  readonly addBackpackToCartButton: Locator;
   readonly productName: Locator;
   
   constructor(page: Page) {
@@ -15,7 +15,7 @@ export class ProductOverviewPage extends BasePage {
     super(page);
 
     // Create unique locators on the Product Overview page
-    this.addToCartButton = page.locator('[data-test="add-to-cart-sauce-labs-backpack"]');
+    this.addBackpackToCartButton = page.locator('[data-test="add-to-cart-sauce-labs-backpack"]');
     this.productSortDropdown = page.locator('[data-test="product-sort-container"]');
     this.productPrices = page.locator('[data-test="inventory-item-price"]');
     this.productName = page.locator('[data-test="inventory-item-name"]');
@@ -98,7 +98,7 @@ export class ProductOverviewPage extends BasePage {
 
   // Add item to shopping cart on Product Overview page
   async addItemToShoppingCart() {
-    await this.addToCartButton.click();
+    await this.addBackpackToCartButton.click();
   }
   // Click on 1st Product Name
   async clickProductName() {
@@ -121,5 +121,27 @@ export class ProductOverviewPage extends BasePage {
     await this.clickRemoveButton();
     await this.page.waitForLoadState('domcontentloaded');
     await this.assertShoppingCartEmpty();
-  }  
+  }
+
+  // Get grand total of selected items
+  async getSelectedItemsTotal(): Promise<number> {
+    const selectedItemPrices = this.page.locator(
+      '.inventory_item:has([data-test^="remove-"]) [data-test="inventory-item-price"]'
+    );
+    const selectedItemPriceTexts = await selectedItemPrices.allTextContents();
+    const total = selectedItemPriceTexts.reduce((sum, priceText) => {
+      return sum + this.parsePrice(priceText);
+    }, 0);
+
+    return Number(total.toFixed(2));
+  }
+  
+  async assertProductPrice(expectedProductPrice: string) {
+    const actualPriceText = (await this.productPrices.first().textContent()) ?? '';
+    const actualPrice = this.parsePrice(actualPriceText);
+    const expectedPrice = this.parsePrice(expectedProductPrice);
+
+    expect(actualPrice).toBeCloseTo(expectedPrice, 2);
+    console.log(`The product price on the product overview page is ${actualPriceText.trim()}.`);
+  }
 }
